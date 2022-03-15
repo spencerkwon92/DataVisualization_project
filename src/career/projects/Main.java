@@ -1,18 +1,18 @@
 package career.projects;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Main extends JFrame {
 
     private Visual contents;
+
 
     public Main(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 1200);
         setTitle("Final Project");
         contents = new Visual();
-        setContentPane((Container) contents);
+        setContentPane(contents);
         JMenuBar mb = createMenu();
         setJMenuBar(mb);
         setVisible(true);
@@ -21,24 +21,32 @@ public class Main extends JFrame {
 
     private JMenuBar createMenu(){
         JMenuBar mb = new JMenuBar();
-        JMenu years = new JMenu("DATUME");
+        JMenu years = new JMenu("DataTable");
+        JMenu x = new JMenu("xAxis Options");
+        JMenu y = new JMenu("yAxis Options");
+
 
         JMenuItem query1 = new JMenuItem("2019 Housing Data");
         query1.addActionListener(contents);
         query1.setActionCommand("SELECT * FROM hdb2019");
         years.add(query1);
 
-        JMenuItem query2 = new JMenuItem("SELECT * FROM hdb2019");
+        JMenuItem query2 = new JMenuItem("2020 Housing Data");
         query2.addActionListener(contents);
-        query2.setActionCommand("");
+        query2.setActionCommand("SELECT * FROM hdb2020");
         years.add(query2);
 
-        JMenuItem query3 = new JMenuItem("SELECT * FROM hdb2019");
+        JMenuItem query3 = new JMenuItem("2021 Housing Data");
         query3.addActionListener(contents);
-        query3.setActionCommand("");
+        query3.setActionCommand("SELECT * FROM hdb2021");
         years.add(query3);
 
+//        for(int i=0; i<12; i++){
+//            x.add(menuXitem(months[i]));
+//            y.add(menuYitem(months[i]));
+//        }
         mb.add(years);
+
         return mb;
     }
 
