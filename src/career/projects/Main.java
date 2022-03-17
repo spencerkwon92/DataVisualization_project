@@ -9,7 +9,7 @@ public class Main extends JFrame {
 
     public Main(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 1200);
+        setSize(1000, 1000);
         setTitle("Final Project");
         contents = new Visual();
         setContentPane(contents);

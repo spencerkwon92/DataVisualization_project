@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Tue Mar 15 05:15:40 HST 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-017f-8e26-2ba6-00000f129078 
+Thu Mar 17 07:50:23 HST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.2.0 - (1828579): instance a816c00e-017f-9900-8807-00000f12bd58 
 on database directory /Users/sungjin.spencerkwon/IdeaProjects/DataVisualization/housingDB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@7ad041f3 
 Loaded from file:/Users/sungjin.spencerkwon/opt/Apache/db-derby-10.14.2.0-bin/lib/derby.jar
 java.vendor=Oracle Corporation
