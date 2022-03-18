@@ -1,9 +1,11 @@
 package career.projects;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.sql.*;
@@ -13,33 +15,46 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class Visual extends JPanel implements ActionListener {
+public class Visual extends JPanel implements ActionListener, MouseInputListener {
 
     List<Housing> housings;
     List<Column> datum;
     int max, min;
     public String[] allmonths = {
-            "JANUARY",
-            "FEBRUARY",
-            "MARCH",
-            "APRIL",
+            "JAN",
+            "FEB",
+            "MAR",
+            "APR",
             "MAY",
-            "JUNE",
-            "JULY",
-            "AUGUST",
-            "SEPTEMBER",
-            "OCTOBER",
-            "NOVEMBER",
-            "DECEMBER"
+            "JUN",
+            "JUL",
+            "AUG",
+            "SEP",
+            "OCT",
+            "NOV",
+            "DEC"
     };
+
+    private Rectangle box;
+    private Point mouseDown;
+
+    double w, h;
+
 
     Visual(){
         datum = new ArrayList<>();
         housings = new ArrayList<>();
+
+        addMouseListener(this);
+        addMouseMotionListener(this);
+        w = getWidth();
+        h = getHeight();
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         housings.clear();
         datum.clear();
 
@@ -51,7 +66,6 @@ public class Visual extends JPanel implements ActionListener {
             ResultSet rs = statement.executeQuery(sql);
             ResultSetMetaData metaData = rs.getMetaData();
 
-            // SQL API를 모아서.. 알맞게 클레스 생성해한단다..
             int dataSize = metaData.getColumnCount();
             for(int i=1; i<=dataSize; i++){
                 Column cul;
@@ -131,8 +145,7 @@ public class Visual extends JPanel implements ActionListener {
         Graphics2D g = (Graphics2D) g1;
 
         List<Double> xValues = new ArrayList<>();
-        List<Double> yValues = new ArrayList<>();
-        //draw Files....
+        //draw Fieles....
         int space = 10;
         double winW= getWidth()-(space*2);
         double winH = (getHeight()-(space*2))/2;
@@ -146,6 +159,7 @@ public class Visual extends JPanel implements ActionListener {
 
         int months = 12;
         int spaceForData = 80;
+//        int spaceForData = (int) (winW*0.2);
         double xAiseIncreament = (winW - 60)/months;
         int lengthForChar = 2;
 
@@ -162,6 +176,21 @@ public class Visual extends JPanel implements ActionListener {
             spaceForData += xAiseIncreament;
         }
 
+        //Draw Label for the YAxise..
+        int labelDecreament = (max-min)/3;
+        int maxLabel= max;
+        int yLabelPos = 25;
+        double labelPosIncreament = (winH-40)/3;
+        for(int i=0;i<4;i++){
+            String label = String.valueOf(maxLabel);
+
+            g.drawString(label,15,yLabelPos);
+
+            yLabelPos += labelPosIncreament;
+            maxLabel -= labelDecreament;
+        }
+
+
         double hight = winH-40;
 
         for(Housing ele:housings){
@@ -171,13 +200,13 @@ public class Visual extends JPanel implements ActionListener {
             int degree = 0;
             for(int i=0; i<size; i++){
 
-                double ratio = hight - (numberTransform(temp.get(i),max, min)*hight-20);
+                double ratio = (numberTransform(temp.get(i),max, min)*hight-20);
                 ele.xCordinates.add(xValues.get(i));
-                ele.yCordinates.add(ratio);
+                ele.yCordinates.add(hight - ratio);
 
                 //Get the data for sqare...
-                double x = spareNumberTransform("cos", ratio, degree);
-                double y = spareNumberTransform("sin", ratio, degree);
+                double x = sqareNumberTransform("cos", ratio, degree);
+                double y = sqareNumberTransform("sin", ratio, degree);
 
                 ele.xPointsForSquare[i] = (int)x;
                 ele.yPointsForSquare[i] = (int)y;
@@ -186,18 +215,32 @@ public class Visual extends JPanel implements ActionListener {
             }
         }
 
+        final int fixedLen = 400;
+        Point2D.Double sPos = new Point2D.Double(getWidth()*0.5, getHeight()*0.75);
+        int degree2 = 0;
+        for(int i=0;i<12;i++){
+            g.setColor(new Color(0,0,0, 30));
+            g.setStroke(new BasicStroke(3.0f));
+            Point2D.Double ePos = new Point2D.Double(sqareNumberTransform("cos",fixedLen, degree2),sqareNumberTransform("sin",fixedLen, degree2));
+            g.drawLine((int) sPos.x, (int) sPos.y, (int) ePos.x, (int) ePos.y);
+
+            g.setColor(new Color(255,0,0));
+            g.drawString(allmonths[i], (int) ePos.x-10, (int) ePos.y);
+
+            degree2 += 30;
+        }
+
         housings.forEach(ele->{
             ele.drawSquare(g);
             ele.pointify();
             ele.drawLine(g);
 
-//            System.out.println(ele.xCordinates);
-//            System.out.println(ele.yCordinates);
-//            System.out.println(Arrays.toString(ele.xPointsForSquare));
-//            System.out.println(Arrays.toString(ele.yPointsForSquare));
-
         });
 
+        if(box != null){
+            g.setColor(new Color(255,0,0,20));
+            g.fill(box);
+        }
     }
 
     public Double numberTransform(int data, int max, int min){
@@ -205,9 +248,9 @@ public class Visual extends JPanel implements ActionListener {
         return ratio;
     }
 
-    public double spareNumberTransform(String trig, double length, int degree){
+    public double sqareNumberTransform(String trig, double length, int degree){
 
-        double x = getWidth()* 0.5;
+        double x = getWidth()*0.5;
         double y = getHeight()*0.75;
 
         double result = 0;
@@ -222,17 +265,83 @@ public class Visual extends JPanel implements ActionListener {
         return result;
     }
 
+    @Override
+    public void mouseClicked(MouseEvent e) {
 
+    }
 
-//    public void numberTransform(List<Integer> data,List<Double> result, int max, int min){
-//
-//        for(int ele:data){
-//            double ratio = (double)(ele-min)/(double)(max - min);
-//            result.add(ratio);
-//        }
-//    }
-//
+    @Override
+    public void mousePressed(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+        mouseDown = new Point(x,y);
+        box = new Rectangle();
+    }
 
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        List<Housing> selected = new ArrayList<>();
+        double testX = getWidth()*0.75;
+        double testY = getHeight()*0.5+100;
 
+        for(Housing ele:housings){
+            ele.normalize();
+            if(ele.getLine().intersects(box)){
+                selected.add(ele);
+            }
+        }
 
+        for(Housing ele:selected) {
+            ele.setPointForHightlight(testX, testY);
+            ele.highlight();
+
+            testY += 30;
+        }
+
+        box = null;
+        repaint();
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        box.setFrameFromDiagonal(mouseDown.x, mouseDown.y, e.getX(), e.getY());
+        repaint();
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        int x = e.getX();
+        int y = e.getY();
+        double minDist = 1;
+        Housing clostestLine = null;
+
+        for(int i=0;i< housings.size();i++){
+            housings.get(i).normalize();
+            double distance = housings.get(i).getDistanceFromPoint(x,y);
+            if(distance < minDist){
+                minDist = distance;
+                clostestLine = housings.get(i);
+
+            }
+        }
+        if(clostestLine !=null){
+            double testX = getWidth()*0.1;
+            double testY = getHeight()*0.5+100;
+            clostestLine.setPointForHover(testX, testY);
+            clostestLine.setGreedingMsgPos(testX-30, testY-30);
+            clostestLine.hover();
+            repaint();
+        }
+
+    }
 }
