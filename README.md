@@ -19,7 +19,7 @@ To develop this project, I thought about what is the most important factors in d
 
 To fulfill these standards, I choose the Parallel Coordinates and Spider chart to show the data. I use Parallel Coordinates to show the trends of data change and Spider chart to show the comparisons and specific data.
 
-![Screen Shot 2022-03-19 at 4.51.38 AM.png](Data%20Visua%204bfc2/Screen_Shot_2022-03-19_at_4.51.38_AM.png)
+![Screen Shot 2022-03-19 at 4.51.38 AM.png](res/Screen_Shot_2022-03-19_at_4.51.38_AM.png)
 
 This is a data table that has 2019 housing prices data in the US. Each row is the one housing information. I saved each row as one object(class name: Housing) and create List to save all the rows.
 
@@ -29,7 +29,7 @@ $RealDataPosition =length Of YAxis (\frac{price - Minimum}{Maximum - Minimum}\ti
 
 To implement the Spider Chart, I used the following logic:
 
-![IMG_C5B965E9257A-1.jpeg](Data%20Visua%204bfc2/IMG_C5B965E9257A-1.jpeg)
+![IMG_C5B965E9257A-1.jpeg](res/IMG_C5B965E9257A-1.jpeg)
 
 This is the diagram that describes the one position of the data. Using the trigonometric function, I could find the pattern of each x coordinate and y coordinate.
 
@@ -43,15 +43,15 @@ I also used `MouseInputListener` object to show the specific data and comparison
 
 ## Result.
 
-![Screen Shot 2022-03-18 at 10.39.01 PM.png](Data%20Visua%204bfc2/Screen_Shot_2022-03-18_at_10.39.01_PM.png)
+![Screen Shot 2022-03-18 at 10.39.01 PM.png](res/Screen_Shot_2022-03-18_at_10.39.01_PM.png)
 
 Showing trend of each housing price change for each month.
 
-![Screen Shot 2022-03-18 at 10.39.10 PM.png](Data%20Visua%204bfc2/Screen_Shot_2022-03-18_at_10.39.10_PM.png)
+![Screen Shot 2022-03-18 at 10.39.10 PM.png](res/Screen_Shot_2022-03-18_at_10.39.10_PM.png)
 
 Showing each housing information. When users hover the mouse pointer on each line, it shows specific housing data at the spider chart.
 
-![Screen Shot 2022-03-18 at 10.39.21 PM.png](Data%20Visua%204bfc2/Screen_Shot_2022-03-18_at_10.39.21_PM.png)
+![Screen Shot 2022-03-18 at 10.39.21 PM.png](res/Screen_Shot_2022-03-18_at_10.39.21_PM.png)
 
 Users are able to choose multiple lines to see the comparison of each line. When they choose the data, it shows the comparison data and data that they choose in the Spider Chart area.
 
