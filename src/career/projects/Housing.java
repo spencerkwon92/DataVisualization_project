@@ -22,7 +22,6 @@ public class Housing {
     private String state;
     private GeneralPath line;
     private List<Point2D> points;
-    private boolean isDraw;
     private Status currentStatus;
     private Point2D highlightInfoPos;
     private Point2D hoverInfoPos;
@@ -59,7 +58,6 @@ public class Housing {
         highlightInfoPos = new Point2D.Double(0,0);
         hoverInfoPos = new Point2D.Double(0,0);
         greedingMsgPos = new Point2D.Double(0,0);
-        isDraw = false;
     }
     public Housing(int id, int size, String state){
         this.id = id;
@@ -100,8 +98,6 @@ public class Housing {
             g.setStroke(new BasicStroke(4.0f));
             g.setColor(new Color(5, 195, 221));
         }
-
-
         g.draw(line);
     }
 
@@ -130,7 +126,6 @@ public class Housing {
 
                     y+=20;
                 }
-
 
             }
 
@@ -209,6 +204,10 @@ public class Housing {
 
     public GeneralPath getLine(){
         return line;
+    }
+
+    public List<Point2D> getPoints(){
+        return points;
     }
 
 }

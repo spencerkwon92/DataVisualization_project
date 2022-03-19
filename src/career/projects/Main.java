@@ -9,7 +9,7 @@ public class Main extends JFrame {
 
     public Main(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 1000);
+        setSize(1900, 1200);
         setTitle("Final Project");
         contents = new Visual();
         setContentPane(contents);
@@ -41,10 +41,11 @@ public class Main extends JFrame {
         query3.setActionCommand("SELECT * FROM hdb2021");
         years.add(query3);
 
-//        for(int i=0; i<12; i++){
-//            x.add(menuXitem(months[i]));
-//            y.add(menuYitem(months[i]));
-//        }
+        JMenuItem query4 = new JMenuItem("2050 Housing Data");
+        query4.addActionListener(contents);
+        query4.setActionCommand("SELECT * FROM hdb2050");
+        years.add(query4);
+
         mb.add(years);
 
         return mb;

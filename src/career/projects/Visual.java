@@ -6,12 +6,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -47,14 +44,11 @@ public class Visual extends JPanel implements ActionListener, MouseInputListener
 
         addMouseListener(this);
         addMouseMotionListener(this);
-        w = getWidth();
-        h = getHeight();
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         housings.clear();
         datum.clear();
 
@@ -142,6 +136,16 @@ public class Visual extends JPanel implements ActionListener, MouseInputListener
     @Override
     public void paintComponent(Graphics g1){
 
+        if(w != getWidth() || h != getHeight()){
+
+            for(Housing ele:housings){
+                ele.xCordinates.clear();
+                ele.yCordinates.clear();
+                ele.getPoints().clear();
+            }
+        }
+        w = getWidth();
+        h = getHeight();
         Graphics2D g = (Graphics2D) g1;
 
         List<Double> xValues = new ArrayList<>();
@@ -156,10 +160,9 @@ public class Visual extends JPanel implements ActionListener, MouseInputListener
         g.drawRect(sp2.x, sp2.y, (int) winW, (int) winH);
 
         // DRAW ASIX..
-
         int months = 12;
-        int spaceForData = 80;
-//        int spaceForData = (int) (winW*0.2);
+//        int spaceForData = 80;
+        int spaceForData = (int) (winW*0.1);
         double xAiseIncreament = (winW - 60)/months;
         int lengthForChar = 2;
 
@@ -183,16 +186,13 @@ public class Visual extends JPanel implements ActionListener, MouseInputListener
         double labelPosIncreament = (winH-40)/3;
         for(int i=0;i<4;i++){
             String label = String.valueOf(maxLabel);
-
-            g.drawString(label,15,yLabelPos);
-
+            g.drawString(label,30,yLabelPos);
             yLabelPos += labelPosIncreament;
             maxLabel -= labelDecreament;
         }
 
 
         double hight = winH-40;
-
         for(Housing ele:housings){
             int size = ele.pricesValue.size();
             List<Integer> temp = ele.pricesValue;
@@ -243,6 +243,7 @@ public class Visual extends JPanel implements ActionListener, MouseInputListener
         }
     }
 
+
     public Double numberTransform(int data, int max, int min){
         double ratio = (double)(data-min)/(double)(max - min);
         return ratio;
@@ -281,8 +282,8 @@ public class Visual extends JPanel implements ActionListener, MouseInputListener
     @Override
     public void mouseReleased(MouseEvent e) {
         List<Housing> selected = new ArrayList<>();
-        double testX = getWidth()*0.75;
-        double testY = getHeight()*0.5+100;
+        double xPos = getWidth()*0.75;
+        double yPos = getHeight()*0.5+100;
 
         for(Housing ele:housings){
             ele.normalize();
@@ -292,10 +293,10 @@ public class Visual extends JPanel implements ActionListener, MouseInputListener
         }
 
         for(Housing ele:selected) {
-            ele.setPointForHightlight(testX, testY);
+            ele.setPointForHightlight(xPos, yPos);
             ele.highlight();
 
-            testY += 30;
+            yPos += 30;
         }
 
         box = null;
